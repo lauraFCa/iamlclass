@@ -1,0 +1,28 @@
+{
+  "name": "criar_ia",
+  "version": "1.0.0",
+  "description": "Creating an AI with NeuroJs",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/server.js",
+    "build": "babel src --out-dir dist",
+    "dev": "nodemon --exec babel-node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Laura Castro",
+  "license": "ISC",
+  "dependencies": {
+    "compromise": "^13.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "natural": "^7.0.5",
+    "neuro.js": "^0.0.2",
+    "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/core": "^7.24.5",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.24.5"
+  }
+}

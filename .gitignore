@@ -1,3 +1,6 @@
 *.csv
 venv
+
 dadosPNADc_brutos2019_1.arff
+
+create_and_insert_script.sql

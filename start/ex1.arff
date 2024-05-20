@@ -1,0 +1,23 @@
+@relation exercicio1
+
+@attribute montante{baixo,medio,alto}
+@attribute idade{senior,media,jovem}
+@attribute salario{baixo,alto}
+@attribute conta{sim,nao}
+@attribute emprestimo{sim,nao}
+
+@data
+medio,senior,baixo,sim,nao
+medio,senior,baixo,nao,nao
+baixo,senior,baixo,sim,sim
+alto,media,baixo,sim,sim
+alto,jovem,alto,sim,sim
+alto,jovem,alto,nao,nao
+baixo,jovem,alto,nao,sim
+medio,media,baixo,sim,nao
+medio,jovem,alto,sim,sim
+alto,media,alto,sim,sim
+medio,media,alto,nao,sim
+baixo,jovem,baixo,nao,sim
+baixo,senior,alto,sim,sim
+alto,media,baixo,nao,nao

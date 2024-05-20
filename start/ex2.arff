@@ -1,0 +1,18 @@
+@relation table
+
+@attribute Tamanho da casa (pes quadrados) string
+@attribute Tamanho do lote string
+@attribute Quartos string
+@attribute Granito string
+@attribute Banheiro reformado? string
+@attribute Preco de venda string
+
+@data
+3529,9191,6,0,0,$205,000
+3247,10061,5,1,1,$224,900
+4032,10150,5,0,1,$197,900
+2397,14156,4,1,0,$189,900
+2200,9600,4,0,1,$195,000
+3536,19994,6,1,1,$325,000
+2983,9365,5,0,1,$230,000
+3198,9669,5,1,1,???

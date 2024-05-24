@@ -40,7 +40,8 @@
         <script>
             const chat = document.getElementById('chat');
             const messageInput = document.getElementById('question');
-
+            let lastUserMessage = "";
+            
             function appendMessage(message, sender) {
                 const div = document.createElement('div');
                 div.classList.add(`message-${sender}`);
@@ -66,10 +67,10 @@
 
                 chat.appendChild(div);
                 const divSplit = document.createElement('span');
-                
+
                 divSplit.classList.add("div-split");
                 chat.appendChild(divSplit);
-                
+
                 const chatarea = document.getElementById('chat-container');
                 if (chat.scrollHeight > 450) {
                     chatarea.scroll({
@@ -93,6 +94,7 @@
                 const loading = document.getElementById('loading');
                 loading.style.display = 'block';
                 appendMessage(question, 'user');
+                lastUserMessage = question; 
                 messageInput.value = '';
 
                 try {
@@ -132,6 +134,11 @@
                 if (event.key === 'Enter') {
                     event.preventDefault();
                     sendMessage();
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    if (lastUserMessage) {
+                        messageInput.value = lastUserMessage; 
+                    }
                 }
             }
         </script>

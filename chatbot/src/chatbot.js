@@ -24,6 +24,7 @@ var intentClassifier = new neuro.classifiers.EnhancedClassifier({
 
 
 function train() {
+    console.log("train")
     intentClassifier.trainBatch([
         { input: "Como está o tempo hoje?", output: ["current_weather", "temperature_forecast"] },
         { input: "Qual é a previsão do tempo para amanhã?", output: ["weather_forecast"] },
@@ -76,7 +77,12 @@ function train() {
         { input: "Próxima quarta-feira terá temperaturas baixas em Florianópolis?", output: ["temperature_forecast"] },
         { input: "No próximo feriado, vai chover em Belo Horizonte?", output: ["weather_forecast"] },
         { input: "No próximo dia útil, qual será a temperatura em Manaus?", output: ["temperature_forecast"] },
-        { input: "Daqui a dois dias, como estará o tempo em Porto Alegre?", output: ["weather_forecast", "temperature_forecast"] }
+        { input: "Daqui a dois dias, como estará o tempo em Porto Alegre?", output: ["weather_forecast", "temperature_forecast"] },
+        { input: "Chove hoje em São Paulo?", output: ["weather_forecast"] },
+        { input: "Choverá hoje em Juariri?", output: ["weather_forecast"] },
+        { input: "Vai chover hoje no Espírito Santo?", output: ["weather_forecast"] },
+        { input: "Vai fazer frio sexta feira no Amazonas?", output: ["temperature_forecast"] },
+        { input: "Vai fazer calor sábado na Lagoa?", output: ["temperature_forecast"] },
     ]);
 }
 
@@ -114,9 +120,6 @@ function extractKeywords(question) {
     const dateRegex = /(hoje|manh[aã]|amanh[ãa]|ontem|tarde|cedo|segunda|ter[çc]a|quarta|quinta|sexta|semana que vem|m[eê]s que vem|ano que vem)/;
     let dateMatch = question.toLowerCase().match(dateRegex);
 
-    // find location
-    //const locationRegex = /\b(em|no|na|de|do|da|aqui)\s+([a-zA-Z\s]+)\b/gi;
-
     let locationMatch = question.toLowerCase().replace(weatherTermsRegex, "");
 
     console.log("locationMatch", locationMatch);
@@ -152,29 +155,51 @@ function getRandomNumber(min, max) {
  * @returns {string} The generated response.
  */
 function getWeatherResponse(intents, keywords) {
-    let responses = [];
-    const local = keywords.location ? ` em ${keywords.location} ` : "";
+    const responses = [];
+    const local = keywords.location ? ` em ${keywords.location}` : "";
+    const date = keywords.date ? `${keywords.date}` : "amanhã";
+
+    const weatherResponses = [
+        `O tempo${local} está claro e ensolarado.`,
+        `O tempo${local} está nublado com possibilidade de chuvas.`,
+        `O tempo${local} está chuvoso e ventoso.`,
+        `O tempo${local} está frio e nublado.`
+    ];
+
+    const forecastResponses = [
+        `A previsão para ${date}${local} é de chuva com possibilidade de trovoadas.`,
+        `A previsão para ${date}${local} é de céu claro e ensolarado.`,
+        `A previsão para ${date}${local} é de tempo nublado com pancadas de chuva.`,
+        `A previsão para ${date}${local} é de tempo frio e ventoso.`
+    ];
+
+    const currentTemperatureResponses = [
+        `A temperatura atual${local} é de ${getRandomNumber(23, 37)}°C.`,
+        `Atualmente, a temperatura${local} está em torno de ${getRandomNumber(12, 37)}°C.`,
+        `Agora, a temperatura${local} é de ${getRandomNumber(15, 30)}°C.`,
+        `Neste momento, a temperatura${local} está em ${getRandomNumber(18, 33)}°C.`
+    ];
+
+    const temperatureForecastResponses = [
+        `A temperatura ${date}${local} será em torno de ${getRandomNumber(12, 37)}°C.`,
+        `Esperamos uma temperatura de ${getRandomNumber(15, 35)}°C ${date}${local}.`,
+        `A previsão de temperatura ${date}${local} é de ${getRandomNumber(10, 25)}°C.`,
+        `Para ${date}${local}, a temperatura deve ficar em torno de ${getRandomNumber(20, 30)}°C.`
+    ];
+
     intents.forEach(intent => {
         switch (intent) {
             case 'current_weather':
-                responses.push(keywords.location ?
-                    `O tempo em ${keywords.location} está claro e ensolarado.` :
-                    "O tempo está claro e ensolarado.");
+                responses.push(weatherResponses[Math.floor(Math.random() * weatherResponses.length)]);
                 break;
             case 'weather_forecast':
-                responses.push(keywords.date ?
-                    `A previsão para ${keywords.date} ${local} é de chuva com possibilidade de trovoadas.` :
-                    `A previsão para amanhã ${local} é de chuva com possibilidade de trovoadas.`);
+                responses.push(forecastResponses[Math.floor(Math.random() * forecastResponses.length)]);
                 break;
             case 'current_temperature':
-                responses.push(keywords.location ?
-                    `A temperatura atual em ${keywords.location} é de ${getRandomNumber(23, 37)}°C.` :
-                    `A temperatura atual é de ${getRandomNumber(12, 37)}°C.`);
+                responses.push(currentTemperatureResponses[Math.floor(Math.random() * currentTemperatureResponses.length)]);
                 break;
             case 'temperature_forecast':
-                responses.push(keywords.date ?
-                    `A temperatura ${keywords.date}${local}será em torno de ${getRandomNumber(12, 37)}°C.` :
-                    `A temperatura amanhã${local}será em torno de ${getRandomNumber(12, 37)}°C.`);
+                responses.push(temperatureForecastResponses[Math.floor(Math.random() * temperatureForecastResponses.length)]);
                 break;
             default:
                 responses.push("Desculpe, não entendi sua pergunta. Pode reformular?");

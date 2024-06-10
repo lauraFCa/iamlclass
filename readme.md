@@ -11,3 +11,7 @@ Scripts para transformar os dados
 ## clima
 
 Mini chatbot sobre o clima/temperatura usando Neuro.js
+
+## comida
+
+Mini chatbot de receitas usando Neuro.js

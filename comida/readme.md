@@ -124,6 +124,13 @@ Utiliza HTML, Bootstrap para estilização e ícones do Font Awesome para criar 
 
 ## Como Funciona
 
+**Executando:**
+
+1. `npm run dev`
+2. Abrir index.js no navegador
+
+**Sobre o funcionamento:**
+
 1. O chatbot é treinado com exemplos de mensagens dos usuários e suas intenções correspondentes.  
 2. Quando uma nova mensagem é recebida, o chatbot:
     - processa o texto, 

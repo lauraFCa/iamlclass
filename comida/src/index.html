@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Chatbot</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="h4 mt-3 mb-2">Chat with Bot</div>
+        <div id="chat-container" class="container border border-bottom-0 rounded-top overflow-y-auto pt-2 pb-3">
+
+            <div id="chat" class="mt-2">
+            </div>
+
+            <div class="spinner-border" id="loading" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+
+        <div class="input-group">
+            <input type="text" class="form-control" id="question" aria-describedby="questionInput"
+                onkeydown="handleKeyPress(event)" placeholder="Digite sua pergunta...">
+
+            <button id="send" class="btn btn-secondary" type="submit" onclick="sendMessage()">
+                <i class="fa fa-paper-plane" style="font-size:20px;"></i>
+            </button>
+        </div>
+        <div class="display-6 p-2">
+            <p id="error-text"></p>
+        </div>
+
+        <script>
+            const chat = document.getElementById('chat');
+            const messageInput = document.getElementById('question');
+            let lastUserMessage = "";
+
+            function appendMessage(message, sender, isproblem = false) {
+                const div = document.createElement('div');
+                div.classList.add(`message-${sender}`);
+
+                const img = document.createElement('img');
+                img.classList.add(`${sender}-icon`);
+                img.alt = sender;
+
+
+                if (sender === 'user') {
+                    const p = document.createElement('p');
+                    p.classList.add('message-text');
+                    p.textContent = message;
+                    img.src = 'https://baronvonfancy.com/cdn/shop/products/SQUARE_0014_me_jpg_2048x.jpg?v=1558053025';
+                    div.appendChild(img);
+                    div.appendChild(p);
+                } else {
+                    img.src = 'https://www.fsp.usp.br/sustentarea/wp-content/uploads/2021/10/Receitas-Capa-1-1024x1024.png';
+                    if (isproblem) {
+                        const p = document.createElement('p');
+                        p.classList.add('message-text');
+                        p.textContent = message.response;
+                        div.appendChild(p);
+                    } else {
+                        const divText = document.createElement('div');
+                        divText.classList.add('message-text');
+                        const enter1 = document.createElement('br');
+                        const enter2 = document.createElement('br');
+                        const enter3 = document.createElement('br');
+                        const enter4 = document.createElement('br');
+
+                        const pTitle = document.createElement('p');
+                        pTitle.classList.add('fw-bold');
+                        pTitle.classList.add('m-0');
+                        pTitle.textContent = message.title;
+
+                        const b1 = document.createElement('b');
+                        b1.textContent = "Prep time: ";
+                        const s1 = document.createElement('span');
+                        s1.textContent = message.readyInMinutes + " mins";
+                        const b2 = document.createElement('b');
+                        b2.textContent = "Serves: ";
+                        const s2 = document.createElement('span');
+                        s2.textContent = message.servings + " people";
+
+                        const b3 = document.createElement('b');
+                        b3.textContent = "How to: ";
+
+                        const ol = document.createElement('p');
+                        ol.classList.add('list');
+                        if (message.instructions) {
+                            const rec = message.instructions.split('<li>');
+                            for (let index = 1; index <= rec.length; index++) {
+                                const el = document.createElement('p');
+                                if (rec[index]) {
+                                    el.textContent = rec[index].replace("</li>", "").replace("</ol>", "");
+                                }
+                                ol.appendChild(el);
+                            }
+                        } else {
+                            const el = document.createElement('p');
+                            el.textContent = message.summary;
+                            ol.appendChild(el);
+                        }
+                        if (ol.children.length > 0) {
+                            divText.classList.add("w-75");
+                        }
+                        divText.appendChild(pTitle);
+                        divText.appendChild(b1);
+                        divText.appendChild(s1);
+                        divText.appendChild(enter2);
+                        divText.appendChild(b2);
+                        divText.appendChild(s2);
+                        divText.appendChild(enter3);
+                        divText.appendChild(b3);
+                        divText.appendChild(ol);
+
+                        const bottom = document.createElement('div');
+                        // bottom.classList.add('d-flex');
+                        // bottom.classList.add('justify-content-between');
+                        // bottom.classList.add('align-items-center');
+
+                        const foodimg = document.createElement('img');
+                        foodimg.src = message.image;
+                        foodimg.classList.add('food-img');
+
+                        const details = document.createElement('a');
+                        details.href = message.spoonacularSourceUrl;
+                        details.textContent = "Ver detalhes";
+                        details.target = "_blank";
+
+                        bottom.appendChild(details);
+                        bottom.appendChild(enter1);
+                        bottom.appendChild(foodimg);
+
+                        divText.appendChild(bottom);
+                        div.appendChild(divText);
+                    }
+                    div.appendChild(img);
+                }
+
+                chat.appendChild(div);
+                const divSplit = document.createElement('span');
+
+                divSplit.classList.add("div-split");
+                chat.appendChild(divSplit);
+
+                const chatarea = document.getElementById('chat-container');
+                if (chat.scrollHeight > 450) {
+                    chatarea.scroll({
+                        top: chat.scrollHeight,
+                        behavior: 'smooth'
+                    })
+                }
+            }
+
+            async function sendMessage() {
+                const btn = document.getElementById("send");
+                btn.disabled = true;
+
+                const question = messageInput.value;
+                const errorTxt = document.getElementById('error-text');
+                if (question.trim() === '') {
+                    errorTxt.textContent = 'É necessário digitar uma pergunta!';
+                    return;
+                };
+                errorTxt.textContent = '';
+                const loading = document.getElementById('loading');
+                loading.style.display = 'block';
+                appendMessage(question, 'user');
+                lastUserMessage = question;
+                messageInput.value = '';
+
+                try {
+
+                    const response = await fetch('http://localhost:3000/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ "Q": question })
+                    });
+
+                    const data = await response.json();
+                    console.log(JSON.stringify(data.response));
+
+                    localStorage.setItem('recipeJson', JSON.stringify(data.response));
+                    // await new Promise((resolve, reject) => {
+                    //     setTimeout(() => {
+                    //         resolve();
+                    //     }, 2000);
+                    // });
+
+                    loading.style.display = 'none';
+                    console.log(response.status)
+                    if (response.status == 200) {
+                        if (data.response.id) {
+                            appendMessage(data.response, 'bot');
+                        } else {
+                            appendMessage(data, 'bot', true);
+                        }
+                    } else {
+                        appendMessage({ response: 'Erro no servidor!' }, 'bot', true);
+                    }
+                } catch (error) {
+                    messageInput.value = '';
+                    loading.style.display = 'none';
+                    console.error('Erro ao enviar mensagem:', error.message);
+                    appendMessage({ response: 'Erro no servidor!' }, 'bot', true);
+                } finally {
+                    btn.disabled = false;
+                }
+
+            }
+
+            function handleKeyPress(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    sendMessage();
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    if (lastUserMessage) {
+                        messageInput.value = lastUserMessage;
+                    }
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

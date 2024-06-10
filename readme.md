@@ -8,6 +8,6 @@ Tratamento dos dados antes de serem usados (pré-processamento)
 
 Scripts para transformar os dados
 
-## chatbot
+## clima
 
 Mini chatbot sobre o clima/temperatura usando Neuro.js

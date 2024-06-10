@@ -44,6 +44,9 @@ var TextClassifier = neuro.classifiers.multilabel.BinaryRelevance.bind(0,
 Utiliza a classe `BinaryRelevance` de `neuro.js` para criar um classificador de texto.  
 Este classificador é configurado para usar o algoritmo `Winnow` para classificação binária.
 
+O classificador de texto base usando o método de relevância binária (BinaryRelevance) para lidar com classificação multi-rótulo, utiliza o classificador Winnow como o classificador binário subjacente, configurado para fazer 10 retrainings.  
+O método de relevância binária divide o problema de multi-rótulo em múltiplos problemas de classificação binária, um para cada possível rótulo.
+
 ### Extrator de Palavras
 
 ```js
@@ -57,6 +60,9 @@ var WordExtractor = function (input, features) {
 
 Define uma função `WordExtractor` que utiliza o `WordTokenizer` de `natural` para extrair palavras de uma entrada de texto e transformá-las em características para o classificador.
 
+O extrator de features (`WordExtractor`) é a função que recebe uma amostra de texto (input) e um conjunto de features (features).  
+Ele divide o texto em palavras e adiciona cada palavra ao conjunto de features com um valor de 1, indicando a presença da palavra. Isso cria um vetor binário onde cada palavra presente no texto é uma feature com valor 1.
+
 ### Classificador de Intenções
 
 ```js
@@ -68,6 +74,9 @@ var intentClassifier = new neuro.classifiers.EnhancedClassifier({
 ```
 
 Cria uma instância de `EnhancedClassifier` de `neuro.js`, configurando-a com o classificador de texto, um normalizador para converter o texto para minúsculas e o extrator de palavras definido anteriormente.
+
+O classificador de intenções (intentClassifier) é inicializado usando o tipo de classificador base (TextClassifier) e o extrator de features (WordExtractor). O EnhancedClassifier combina esses componentes para criar um modelo completo que pode ser treinado e usado para classificar novos textos.
+
 
 ### Função de Treinamento
 

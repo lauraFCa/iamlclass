@@ -12,7 +12,6 @@ const key = "";
 
 /**
  * Represents a text classifier for intent classification.
- * @class
  */
 var TextClassifier = neuro.classifiers.multilabel.BinaryRelevance.bind(0, {
     binaryClassifierType: neuro.classifiers.Winnow.bind(0, { retrain_count: 10 })
@@ -20,7 +19,6 @@ var TextClassifier = neuro.classifiers.multilabel.BinaryRelevance.bind(0, {
 
 /**
  * Represents a word extractor for feature extraction.
- * @class
  * @param {string} input - The input text.
  * @param {Object} features - The features object.
  */
@@ -33,7 +31,6 @@ var WordExtractor = function (input, features) {
 
 /**
  * Represents an intent classifier using neuro.js.
- * @class
  */
 var intentClassifier = new neuro.classifiers.EnhancedClassifier({
     classifierType: TextClassifier,
@@ -169,6 +166,8 @@ async function getAIResponse(intents) {
             return "Sorry, I got nothing.."
         }
     } else {
+        const r = await resp1.json();
+        console.log(r);
         return falha;
     }
 }

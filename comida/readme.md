@@ -5,6 +5,50 @@ O servidor é capaz de receber mensagens de usuários, classificar a intenção 
 
 Importante: Chatbot funciona em ingles devido a API usada: `Spoonacular`
 
+
+## Como Funciona
+
+**Executando:**
+
+1. `npm run dev`
+2. Abrir index.js no navegador
+
+OU
+
+1. Executar o script python: `run.py`
+
+<br/>
+
+**Sobre o funcionamento:**
+
+1. O chatbot é treinado com exemplos de mensagens dos usuários e suas intenções correspondentes.  
+2. Quando uma nova mensagem é recebida, o chatbot:
+    - processa o texto, 
+    - extrai características relevantes e 
+    - utiliza o classificador de intenções para determinar a intenção por trás da mensagem.  
+3. Com base nessa intenção, o chatbot pode então responder de maneira apropriada.
+
+
+Possíveis perguntas:
+1. what can i do with chocolate and apples?
+2. what can I make with bananas?
+3. how to cook tomato beef?
+4. what desserts can I make with strawberries?
+5. how to prepare tofu for grilling?
+6. how long does it take to bake a potato?
+
+
+[![Watch the video](midia/video_snap.png)](midia/FoodChatbot_demo.mp4)
+
+
+
+### Funcionalidades
+
+- **Envio de Mensagens**: O usuário pode digitar uma mensagem no campo de entrada e pressionar o botão de enviar ou a tecla Enter para enviar a mensagem ao chatbot.
+- **Exibição de Mensagens**: As mensagens enviadas e as respostas do chatbot são exibidas na área de mensagens.
+- **Feedback de Carregamento**: Um spinner é exibido enquanto a mensagem está sendo processada, proporcionando um feedback visual ao usuário.
+
+
 ## Tecnologias Utilizadas
 
 - **HTML/CSS e JavaScript**: Front-end do chatbot (interface).
@@ -113,39 +157,6 @@ Utiliza HTML, Bootstrap para estilização e ícones do Font Awesome para criar 
   - *Spinner de Carregamento*: Um spinner do Bootstrap que é mostrado enquanto as mensagens estão sendo carregadas ou processadas.
 - *Campo de Entrada de Texto*: Uma `input-group` do Bootstrap que contém o campo de texto onde o usuário pode digitar suas mensagens e um botão para enviar a mensagem.
 - *Mensagem de Erro*: Uma `div` para exibir mensagens de erro ao usuário.
-
-
-### Funcionalidades
-
-- **Envio de Mensagens**: O usuário pode digitar uma mensagem no campo de entrada e pressionar o botão de enviar ou a tecla Enter para enviar a mensagem ao chatbot.
-- **Exibição de Mensagens**: As mensagens enviadas e as respostas do chatbot são exibidas na área de mensagens.
-- **Feedback de Carregamento**: Um spinner é exibido enquanto a mensagem está sendo processada, proporcionando um feedback visual ao usuário.
-
-
-## Como Funciona
-
-**Executando:**
-
-1. `npm run dev`
-2. Abrir index.js no navegador
-
-**Sobre o funcionamento:**
-
-1. O chatbot é treinado com exemplos de mensagens dos usuários e suas intenções correspondentes.  
-2. Quando uma nova mensagem é recebida, o chatbot:
-    - processa o texto, 
-    - extrai características relevantes e 
-    - utiliza o classificador de intenções para determinar a intenção por trás da mensagem.  
-3. Com base nessa intenção, o chatbot pode então responder de maneira apropriada.
-
-
-Possíveis perguntas:
-1. what can i do with chocolate and apples?
-2. what can I make with bananas?
-3. how to cook tomato beef?
-4. what desserts can I make with strawberries?
-5. how to prepare tofu for grilling?
-6. how long does it take to bake a potato?
 
 
 ## Built With

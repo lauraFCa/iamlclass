@@ -38,9 +38,8 @@ Possíveis perguntas:
 6. how long does it take to bake a potato?
 
 
-[![Watch the video](midia/video_snap.png)](midia/FoodChatbot_demo.mp4)
+[![Watch the video](video_snap.png)](https://youtu.be/-ByisnHLmeI)
 
-<video src='midia/FoodChatbot_demo.mp4' width="200"></video>
 
 
 ### Funcionalidades

@@ -40,6 +40,7 @@ Possíveis perguntas:
 
 [![Watch the video](midia/video_snap.png)](midia/FoodChatbot_demo.mp4)
 
+<video src='midia/FoodChatbot_demo.mp4' width="200"></video>
 
 
 ### Funcionalidades
